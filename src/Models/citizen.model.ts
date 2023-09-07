@@ -23,19 +23,24 @@ interface CitizenModel extends Document {
 const citizenSchema = new Schema<CitizenModel>(
     {
         first_name: {
-            type: String, required: true
+            type: String,
+            required: true
         },
         second_name: {
-            type: String, required: true
+            type: String,
+            required: true
         },
         third_name: {
-            type: String, required: true
+            type: String,
+            required: true
         },
         fourth_name: {
-            type: String, required: true
+            type: String,
+            required: true
         },
         nationality: {
-            type: String, required: true
+            type: String,
+            required: true
         },
         passport_or_national_id: {
             type: String,

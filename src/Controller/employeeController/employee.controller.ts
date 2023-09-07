@@ -40,8 +40,8 @@ const loginEmployee = async (req: Request, res: Response, next: NextFunction) =>
         if (!isPasswordValid) throw new CustomError('Incorrect phone number or Password', 401);
         const expiresInMilliseconds: number = req.body.rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000; // 30 days or 1 day
         const token = jwt.sign({ id: employeeAuthentication._id, role: employeeAuthentication.role }, process.env.JWT_SECRET as string, { expiresIn: expiresInMilliseconds });
-        res.cookie('auth-token', token, { maxAge: expiresInMilliseconds });
-        res.status(200).send({ isSuccess: true, status: 200, message: 'Employee logged successfully' });
+        res.cookie('auth-token', token, { maxAge: expiresInMilliseconds, httpOnly: true });
+        res.status(200).send({ isSuccess: true, status: 200, message: 'Employee logged successfully', token: token });
     } catch (err: any) {
         next(err);
     };
