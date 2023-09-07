@@ -48,7 +48,7 @@ const loginCitizen = async (req: Request, res: Response, next: NextFunction) => 
         const expiresInMilliseconds: number = req.body.rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000; // 30 days or 1 day
         const token = jwt.sign({ id: citizenAuthentication._id, role: citizenAuthentication.role }, process.env.JWT_SECRET as string, { expiresIn: expiresInMilliseconds });
         res.cookie('auth-token', token, { maxAge: expiresInMilliseconds });
-        res.status(200).send({ isSuccess: true, status: 200, message: 'Citizen logged successfully' });
+        res.status(200).send({ isSuccess: true, status: 200, message: 'Citizen logged successfully', token: token });
     } catch (err: any) {
         next(err);
     };
