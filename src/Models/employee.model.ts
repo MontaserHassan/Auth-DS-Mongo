@@ -68,4 +68,7 @@ const Employee = model<EmployeeModel>("Wf_employees", employeesSchema);
 
 
 
-export { Employee };
+export {
+    Employee,
+    EmployeeModel,
+};

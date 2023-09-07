@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { Citizen, Employee } from '../../Models/index.model';
+import { Citizen, CitizenModel, Employee, CitizenProfile, CitizenProfileModel } from '../../Models/index.model';
 import CustomError from '../../Utils/customError.utils';
 
 
@@ -26,16 +26,18 @@ const getMyProfile = async (req: Request, res: Response, next: NextFunction) => 
     try {
         const entityId = req.currentUserId;
         const entityRole = req.currentUserRole;
-        let profile;
+        let profileCredential: CitizenModel;
+        let profile: CitizenProfileModel;
         console.log('entityId: ', entityId);
         console.log('entityRole: ', entityRole);
         if (entityRole === 'citizen') {
-            profile = await Citizen.findById(entityId);
+            profileCredential = await Citizen.findById(entityId)
+            profile = await CitizenProfile.findOne({ citizenId: entityId });
         } else {
             profile = await Employee.findById(entityId);
-        }
+        };
         if (!profile) throw new CustomError('profile not found', 404);
-        res.status(200).json({ isSuccess: true, status: 200, profile: profile });
+        res.status(200).json({ isSuccess: true, status: 200, profileCredential: profileCredential, profile: profile });
     } catch (error) {
         next(error);
     }
