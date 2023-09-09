@@ -32,7 +32,7 @@ const getMyProfile = async (req: Request, res: Response, next: NextFunction) => 
         console.log('entityRole: ', entityRole);
         if (entityRole === 'citizen') {
             profileCredential = await Citizen.findById(entityId)
-            profile = await CitizenProfile.findOne({ citizenId: entityId });
+            profile = await CitizenProfile.findOne({ citizenId: entityId }).select('-citizenId');
         } else {
             profile = await Employee.findById(entityId);
         };

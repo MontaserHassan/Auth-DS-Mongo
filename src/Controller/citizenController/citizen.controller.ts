@@ -42,7 +42,7 @@ const loginCitizen = async (req: Request, res: Response, next: NextFunction) => 
         const expiresInMilliseconds: number = req.body.rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000; // 30 days or 1 day
         const token = jwt.sign({ id: citizenAuthentication._id, role: citizenAuthentication.role }, process.env.JWT_SECRET as string, { expiresIn: expiresInMilliseconds });
         res.cookie('auth-token', token, { maxAge: expiresInMilliseconds, httpOnly: true });
-        res.status(200).send({ isSuccess: true, status: 200, message: 'Citizen logged successfully', token: token });
+        res.status(200).send({ isSuccess: true, status: 200, message: `Citizen: ${citizenAuthentication.user_name} logged successfully`, token: token });
     } catch (err: any) {
         next(err);
     };
@@ -54,22 +54,23 @@ const loginCitizen = async (req: Request, res: Response, next: NextFunction) => 
 
 const completeCitizenInfo = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const citizenCredential = await Citizen.findById(req.currentUserId);
+        const citizenCredential = await Citizen.findById(req.currentUserId).select('-password');
+        console.log(citizenCredential);
         const newCitizen = new CitizenProfile({
             citizenId: req.currentUserId,
-            first_name: req.body.first_name,
-            second_name: req.body.second_name,
-            third_name: req.body.third_name,
-            fourth_name: req.body.fourth_name,
-            nationality: req.body.nationality,
+            first_name: (req.body.first_name).toLowerCase(),
+            second_name: (req.body.second_name).toLowerCase(),
+            third_name: (req.body.third_name).toLowerCase(),
+            fourth_name: (req.body.fourth_name).toLowerCase(),
+            nationality: req.body.nationality.toLowerCase(),
             passport_or_national_id: req.body.passport_or_national_id,
-            address: req.body.address,
-            job_title: req.body.job_title,
+            address: (req.body.address).toLowerCase(),
+            job_title: (req.body.job_title).toLowerCase(),
             gender: req.body.gender
         });
-        const savedCitizen = await newCitizen.save();
-        if (!savedCitizen) throw new CustomError('Internal server error', 500);
-        res.status(201).send({ isSuccess: true, status: 200, message: 'Citizen completed his information successfully', citizenCredential: citizenCredential, citizen: savedCitizen });
+        const savedProfileCitizen = await newCitizen.save();
+        if (!savedProfileCitizen) throw new CustomError('Internal server error', 500);
+        res.status(201).send({ isSuccess: true, status: 200, message: 'Citizen completed his information successfully', citizenCredential: citizenCredential, citizen: savedProfileCitizen });
     } catch (err: any) {
         next(err);
     };

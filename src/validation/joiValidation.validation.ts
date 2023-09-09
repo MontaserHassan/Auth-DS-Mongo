@@ -40,7 +40,7 @@ const citizenValidator = {
             phone_number: Joi.string().required().length(11),
         })
     },
-}
+};
 
 const citizenProfileValidator = {
     completeCitizen: {
@@ -53,7 +53,6 @@ const citizenProfileValidator = {
             nationality: Joi.string().required().min(3),
             address: Joi.string().required().min(3),
             job_title: Joi.string().required().min(2),
-            gender: Joi.string().required(),
         })
     },
 };
