@@ -1,0 +1,105 @@
+{
+	"info": {
+		"_postman_id": "e08c88db-0a2a-46a0-b8c6-324e512e98d5",
+		"name": "Employee",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26251440",
+		"_collection_link": "https://red-space-779395.postman.co/workspace/Auth-DS~72607d9c-007f-4017-bea1-14641988d93f/collection/26251440-e08c88db-0a2a-46a0-b8c6-324e512e98d5?action=share&source=collection_link&creator=26251440"
+	},
+	"item": [
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Mohamed Mohamed Hassan\",\n    \"username\": \"Mohamed Hassan\",\n    \"password\": \"12345678\",\n    \"phone_number\": \"01032492014\",\n    \"role\": \"CA\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/employee/auth/register",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"employee",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phone_number\": \"01118172440\",\n    \"password\": \"12345678\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/employee/auth/login",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"employee",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "entity profile",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/common/profile/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"common",
+						"profile",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/common/logout/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"common",
+						"logout",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

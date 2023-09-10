@@ -10,7 +10,6 @@ const getCurrentEntityLogged = async (req: Request, res: Response, next: NextFun
         // const token = req.cookies['Authorization'];
         if (!token) throw new CustomError('Access denied', 401);
         decodedPayload = jwtVerify(token, process.env.JWT_SECRET);
-        // console.log("decodedPayload: ", decodedPayload);
         if (decodedPayload) {
             req.currentUserId = decodedPayload.id;
             req.currentUserRole = decodedPayload.role;

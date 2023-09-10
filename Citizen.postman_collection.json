@@ -1,0 +1,191 @@
+{
+	"info": {
+		"_postman_id": "63e95bf6-e707-42b6-a6a3-7b35c371b1ab",
+		"name": "Citizen",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26251440",
+		"_collection_link": "https://red-space-779395.postman.co/workspace/Auth-DS~72607d9c-007f-4017-bea1-14641988d93f/collection/26251440-63e95bf6-e707-42b6-a6a3-7b35c371b1ab?action=share&source=collection_link&creator=26251440"
+	},
+	"item": [
+		{
+			"name": "entity profile",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZmQ3MzJiYzM3MzAyYzRlODMzY2Y5MSIsInJvbGUiOiJjaXRpemVuIiwiaWF0IjoxNjk0MzMxNzEwLCJleHAiOjE3ODA3MzE3MTB9.1M3lJ9dHsM_bAG6c2dW85EE5HGnoI1phQADLwu1pXlg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/common/profile/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"common",
+						"profile",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_name\": \"montaser hassan\",\n    \"email\": \"montaser.mohamed@gmail.com\",\n    \"phone_number\": \"01123456789\",\n    \"password\": \"12345678\" \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/citizen/auth/register",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"citizen",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/common/logout/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"common",
+						"logout",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"montaser.mohamed@gmail.com\",\n    \"password\": \"12345678\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/citizen/auth/login",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"citizen",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "complete info - all data",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZmQ3MzJiYzM3MzAyYzRlODMzY2Y5MSIsInJvbGUiOiJjaXRpemVuIiwiaWF0IjoxNjk0MzMxNzEwLCJleHAiOjE3ODA3MzE3MTB9.1M3lJ9dHsM_bAG6c2dW85EE5HGnoI1phQADLwu1pXlg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"first_name\": \"Mahmoud\",\n    \"second_name\": \"AbdEl-fattah\",\n    \"third_name\": \"hassan\",\n    \"fourth_name\": \"abdEl-MageD\",\n    \"nationality\": \"Egyptian\",\n    \"address\": \"Bani-Seuf, Egypt\",\n    \"passport_or_national_id\": \"29904242200179\",\n    \"job_title\": \"Software Engineer\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/common/profile/completeInfo",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"common",
+						"profile",
+						"completeInfo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "complete info",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZmQ3MzJiYzM3MzAyYzRlODMzY2Y5MSIsInJvbGUiOiJjaXRpemVuIiwiaWF0IjoxNjk0MzMxNzEwLCJleHAiOjE3ODA3MzE3MTB9.1M3lJ9dHsM_bAG6c2dW85EE5HGnoI1phQADLwu1pXlg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"passport_or_national_id\": \"29904242200174\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/common/profile/completeInfo",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"common",
+						"profile",
+						"completeInfo"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

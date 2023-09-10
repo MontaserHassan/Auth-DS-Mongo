@@ -55,22 +55,20 @@ const loginCitizen = async (req: Request, res: Response, next: NextFunction) => 
 const completeCitizenInfo = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const citizenCredential = await Citizen.findById(req.currentUserId).select('-password');
-        console.log('citizenCredential: ', citizenCredential);
         if (!req.body.passport_or_national_id || req.body.passport_or_national_id === undefined || req.body.passport_or_national_id === null) throw new CustomError('Please provide passport or national id', 400);
         const newCitizen = new CitizenProfile({
             citizenId: req.currentUserId,
-            first_name: (req.body.first_name).toLowerCase(),
-            second_name: (req.body.second_name).toLowerCase(),
-            third_name: (req.body.third_name).toLowerCase(),
-            fourth_name: (req.body.fourth_name).toLowerCase(),
-            nationality: req.body.nationality.toLowerCase(),
+            first_name: (req.body.first_name)?.toLowerCase(),
+            second_name: (req.body.second_name)?.toLowerCase(),
+            third_name: (req.body.third_name)?.toLowerCase(),
+            fourth_name: (req.body.fourth_name)?.toLowerCase(),
+            nationality: req.body.nationality?.toLowerCase(),
             passport_or_national_id: req.body.passport_or_national_id,
-            address: (req.body.address).toLowerCase(),
-            job_title: (req.body.job_title).toLowerCase(),
+            address: (req.body.address)?.toLowerCase(),
+            job_title: (req.body.job_title)?.toLowerCase(),
             gender: req.body.gender
         });
         const savedProfileCitizen = await newCitizen.save();
-        console.log('savedProfileCitizen: ', savedProfileCitizen);
         if (!savedProfileCitizen) throw new CustomError('Internal server error', 500);
         res.status(201).send({ isSuccess: true, status: 200, message: 'Citizen completed his information successfully', citizenCredential: citizenCredential, citizen: savedProfileCitizen });
     } catch (err: any) {
