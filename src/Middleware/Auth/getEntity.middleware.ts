@@ -7,7 +7,7 @@ const getCurrentEntityLogged = async (req: Request, res: Response, next: NextFun
     try {
         let decodedPayload;
         const token = req.header('Authorization');
-        // const token = req.cookies['auth-token'];
+        // const token = req.cookies['Authorization'];
         if (!token) throw new CustomError('Access denied', 401);
         decodedPayload = jwtVerify(token, process.env.JWT_SECRET);
         // console.log("decodedPayload: ", decodedPayload);

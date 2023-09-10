@@ -44,15 +44,16 @@ const citizenValidator = {
 
 const citizenProfileValidator = {
     completeCitizen: {
+        // delete required -- national id is required
         body: Joi.object().keys({
-            first_name: Joi.string().required().min(3).max(18),
-            second_name: Joi.string().required().min(3).max(18),
-            third_name: Joi.string().required().min(3).max(18),
-            fourth_name: Joi.string().required().min(3).max(18),
             passport_or_national_id: Joi.string().required().length(14),
-            nationality: Joi.string().required().min(3),
-            address: Joi.string().required().min(3),
-            job_title: Joi.string().required().min(2),
+            first_name: Joi.string().min(3).max(18),
+            second_name: Joi.string().min(3).max(18),
+            third_name: Joi.string().min(3).max(18),
+            fourth_name: Joi.string().min(3).max(18),
+            nationality: Joi.string().min(3),
+            address: Joi.string().min(3),
+            job_title: Joi.string().min(2),
         })
     },
 };

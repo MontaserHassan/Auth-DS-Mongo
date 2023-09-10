@@ -28,19 +28,21 @@ const getMyProfile = async (req: Request, res: Response, next: NextFunction) => 
         const entityRole = req.currentUserRole;
         let profileCredential: CitizenModel;
         let profile: CitizenProfileModel;
-        console.log('entityId: ', entityId);
-        console.log('entityRole: ', entityRole);
         if (entityRole === 'citizen') {
-            profileCredential = await Citizen.findById(entityId)
+            profileCredential = await Citizen.findById(entityId).select('-password');
             profile = await CitizenProfile.findOne({ citizenId: entityId }).select('-citizenId');
         } else {
             profile = await Employee.findById(entityId);
         };
-        if (!profile) throw new CustomError('profile not found', 404);
-        res.status(200).json({ isSuccess: true, status: 200, profileCredential: profileCredential, profile: profile });
+        // if (!profile) throw new CustomError('profile not found', 404);
+        if (!profile) {
+            res.status(200).send({ isSuccess: true, status: 200, profileCredential: profileCredential, profile: "please, complete your profile, User hasn't full profile" });
+        } else {
+            res.status(200).send({ isSuccess: true, status: 200, profileCredential: profileCredential, profile: profile });
+        };
     } catch (error) {
         next(error);
-    }
+    };
 };
 
 

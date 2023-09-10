@@ -18,10 +18,10 @@ const registerCitizen = async (req: Request, res: Response, next: NextFunction) 
             email: (req.body.email).toLowerCase(),
             phone_number: req.body.phone_number,
             password: req.body.password,
-            passport_or_national_id: req.body.passport_or_national_id
         });
         const savedCitizen = await newCitizen.save();
         if (!savedCitizen) throw new CustomError('Internal server error', 500);
+        // token after registration
         res.status(201).send({ isSuccess: true, status: 201, message: 'Citizen registered successfully', citizen: savedCitizen });
     } catch (err: any) {
         next(err);
@@ -55,7 +55,8 @@ const loginCitizen = async (req: Request, res: Response, next: NextFunction) => 
 const completeCitizenInfo = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const citizenCredential = await Citizen.findById(req.currentUserId).select('-password');
-        console.log(citizenCredential);
+        console.log('citizenCredential: ', citizenCredential);
+        if (!req.body.passport_or_national_id || req.body.passport_or_national_id === undefined || req.body.passport_or_national_id === null) throw new CustomError('Please provide passport or national id', 400);
         const newCitizen = new CitizenProfile({
             citizenId: req.currentUserId,
             first_name: (req.body.first_name).toLowerCase(),
@@ -69,6 +70,7 @@ const completeCitizenInfo = async (req: Request, res: Response, next: NextFuncti
             gender: req.body.gender
         });
         const savedProfileCitizen = await newCitizen.save();
+        console.log('savedProfileCitizen: ', savedProfileCitizen);
         if (!savedProfileCitizen) throw new CustomError('Internal server error', 500);
         res.status(201).send({ isSuccess: true, status: 200, message: 'Citizen completed his information successfully', citizenCredential: citizenCredential, citizen: savedProfileCitizen });
     } catch (err: any) {

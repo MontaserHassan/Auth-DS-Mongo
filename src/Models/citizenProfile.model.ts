@@ -25,23 +25,23 @@ const citizenProfileSchema = new Schema<CitizenProfileModel>(
         },
         first_name: {
             type: String,
-            required: true,
+            // required: true,
         },
         second_name: {
             type: String,
-            required: true,
+            // required: true,
         },
         third_name: {
             type: String,
-            required: true,
+            // required: true,
         },
         fourth_name: {
             type: String,
-            required: true,
+            // required: true,
         },
         nationality: {
             type: String,
-            required: true,
+            // required: true,
         },
         passport_or_national_id: {
             type: String,
@@ -50,15 +50,15 @@ const citizenProfileSchema = new Schema<CitizenProfileModel>(
         },
         address: {
             type: String,
-            required: true,
+            // required: true,
         },
         job_title: {
             type: String,
-            required: true,
+            // required: true,
         },
         gender: {
             type: String,
-            required: true,
+            // required: true,
             enum: ["male", "female"],
             default: "male",
         },
