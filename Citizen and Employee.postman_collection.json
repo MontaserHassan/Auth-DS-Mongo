@@ -1,0 +1,330 @@
+{
+	"info": {
+		"_postman_id": "7527b285-630c-4b9f-889e-2244a9871648",
+		"name": "citizen and employee",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26251440",
+		"_collection_link": "https://red-space-779395.postman.co/workspace/Auth-DS~72607d9c-007f-4017-bea1-14641988d93f/collection/26251440-7527b285-630c-4b9f-889e-2244a9871648?action=share&source=collection_link&creator=26251440"
+	},
+	"item": [
+		{
+			"name": "Employee",
+			"item": [
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/common/logout/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"common",
+								"logout",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Mohamed Mohamed Hassan\",\n    \"username\": \"Mohamed Hassan\",\n    \"password\": \"12345678\",\n    \"phone_number\": \"01032492014\",\n    \"role\": \"CA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/employee/auth/register",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employee",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone_number\": \"01118172440\",\n    \"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/employee/auth/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employee",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "entity profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/common/profile/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"common",
+								"profile",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Citizen",
+			"item": [
+				{
+					"name": "entity profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZmQ4YjllMzJlNjllMDViMDE0MTNjNiIsInJvbGUiOiJjaXRpemVuIiwiaWF0IjoxNjk0MzU2OTQwfQ.c3J7wIZrdVkU-APQiOspIituceKrPBF36bSLXS82l2o",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/common/profile/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"common",
+								"profile",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_name\": \"mohamed hassan\",\n    \"email\": \"mohamed.hassan@gmail.com\",\n    \"phone_number\": \"01254369874\",\n    \"password\": \"12345678\" \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/citizen/auth/register",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"citizen",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/common/logout/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"common",
+								"logout",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"mohamed.hassan@gmail.com\",\n    \"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/citizen/auth/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"citizen",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "complete info - all data",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZmQ3MzJiYzM3MzAyYzRlODMzY2Y5MSIsInJvbGUiOiJjaXRpemVuIiwiaWF0IjoxNjk0MzMxNzEwLCJleHAiOjE3ODA3MzE3MTB9.1M3lJ9dHsM_bAG6c2dW85EE5HGnoI1phQADLwu1pXlg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\": \"Mahmoud\",\n    \"second_name\": \"AbdEl-fattah\",\n    \"third_name\": \"hassan\",\n    \"fourth_name\": \"abdEl-MageD\",\n    \"nationality\": \"Egyptian\",\n    \"address\": \"Bani-Seuf, Egypt\",\n    \"passport_or_national_id\": \"29904242200179\",\n    \"job_title\": \"Software Engineer\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/common/profile/completeInfo",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"common",
+								"profile",
+								"completeInfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "complete info",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZmQ4YjllMzJlNjllMDViMDE0MTNjNiIsInJvbGUiOiJjaXRpemVuIiwiaWF0IjoxNjk0MzU2OTQwfQ.c3J7wIZrdVkU-APQiOspIituceKrPBF36bSLXS82l2o",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"passport_or_national_id\": \"29904242200177\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/common/profile/completeInfo",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"common",
+								"profile",
+								"completeInfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update info",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZmQ4YjllMzJlNjllMDViMDE0MTNjNiIsInJvbGUiOiJjaXRpemVuIiwiaWF0IjoxNjk0MzU2OTQwfQ.c3J7wIZrdVkU-APQiOspIituceKrPBF36bSLXS82l2o",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"passport_or_national_id\": \"29904242200787\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/common/profile/updateInfo/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"common",
+								"profile",
+								"updateInfo",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
