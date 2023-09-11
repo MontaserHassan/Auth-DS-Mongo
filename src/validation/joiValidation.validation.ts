@@ -54,6 +54,7 @@ const citizenProfileValidator = {
             nationality: Joi.string().min(3),
             address: Joi.string().min(3),
             job_title: Joi.string().min(2),
+            gender: Joi.string().valid('male', 'female')
         }),
     },
     updateCitizenInfo: {
@@ -66,6 +67,7 @@ const citizenProfileValidator = {
             nationality: Joi.string().min(3),
             address: Joi.string().min(3),
             job_title: Joi.string().min(2),
+            gender: Joi.string().valid('male', 'female')
         }),
     },
 };
