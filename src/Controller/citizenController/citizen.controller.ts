@@ -11,8 +11,14 @@ import { CitizenProfile } from '../../Models/citizenProfile.model';
 
 const registerCitizen = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const checkUserExists = await Citizen.findOne({ email: req.body.email });
-        if (checkUserExists) throw new CustomError('This E-mail already exists, please use another email', 400);
+        const existingCitizen = await Citizen.findOne({ $or: [{ email: (req.body.email).toLowerCase() }, { phone_number: req.body.phone_number },] });
+        if (existingCitizen) {
+            if (existingCitizen.email === (req.body.email).toLowerCase()) {
+                throw new CustomError('This E-mail already exists, please use another email', 400);
+            } else {
+                throw new CustomError('This phone number already exists, please use another phone number', 400);
+            };
+        };
         const newCitizen = new Citizen({
             user_name: (req.body.user_name).toLowerCase(),
             email: (req.body.email).toLowerCase(),
@@ -60,6 +66,8 @@ const completeCitizenInfo = async (req: Request, res: Response, next: NextFuncti
     try {
         const citizenCredential = await Citizen.findById(req.currentUserId).select('-password');
         if (!req.body.passport_or_national_id || req.body.passport_or_national_id === undefined || req.body.passport_or_national_id === null) throw new CustomError('Please provide passport or national id', 400);
+        const existingCitizenProfile = await CitizenProfile.findOne({ passport_or_national_id: req.body.passport_or_national_id });
+        if (existingCitizenProfile) throw new CustomError('This passport or national id already exists', 400);
         const newCitizen = new CitizenProfile({
             citizenId: req.currentUserId,
             first_name: (req.body.first_name)?.toLowerCase(),
