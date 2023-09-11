@@ -8,7 +8,8 @@ const router = express.Router();
 
 
 router.get('/', commonController.getMyProfile);
-router.post('/completeInfo', validation(citizenProfileValidator.completeCitizen), citizenController.completeCitizenInfo)
+router.post('/completeInfo', validation(citizenProfileValidator.completeCitizenInfo), citizenController.completeCitizenInfo)
+router.patch('/updateInfo', validation(citizenProfileValidator.updateCitizenInfo), citizenController.updateCitizenInfo);
 
 
 

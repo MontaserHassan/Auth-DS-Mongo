@@ -21,11 +21,14 @@ const registerCitizen = async (req: Request, res: Response, next: NextFunction) 
         });
         const savedCitizen = await newCitizen.save();
         if (!savedCitizen) throw new CustomError('Internal server error', 500);
-        // token after registration
-        res.status(201).send({ isSuccess: true, status: 201, message: 'Citizen registered successfully', citizen: savedCitizen });
+        // const expiresInMilliseconds: number = req.body.rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000; // cookie
+        // const token = jwt.sign({ id: savedCitizen._id, role: savedCitizen.role }, process.env.JWT_SECRET as string, { expiresIn: expiresInMilliseconds }); // cookie
+        // res.cookie('auth-token', token, { maxAge: expiresInMilliseconds, httpOnly: true }); // cookie
+        const token = jwt.sign({ id: savedCitizen._id, role: savedCitizen.role }, process.env.JWT_SECRET as string);
+        res.status(201).send({ isSuccess: true, status: 201, message: 'Citizen registered successfully', citizen: savedCitizen, token: token });
     } catch (err: any) {
         next(err);
-    }
+    };
 };
 
 
@@ -39,9 +42,10 @@ const loginCitizen = async (req: Request, res: Response, next: NextFunction) => 
         if (!citizenAuthentication) throw new CustomError('Incorrect Email or Password', 401);
         const isPasswordValid = citizenAuthentication.verifyPassword(req.body.password);
         if (!isPasswordValid) throw new CustomError('Incorrect Email or Password', 401);
-        const expiresInMilliseconds: number = req.body.rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000; // 30 days or 1 day
-        const token = jwt.sign({ id: citizenAuthentication._id, role: citizenAuthentication.role }, process.env.JWT_SECRET as string, { expiresIn: expiresInMilliseconds });
-        res.cookie('auth-token', token, { maxAge: expiresInMilliseconds, httpOnly: true });
+        // const expiresInMilliseconds: number = req.body.rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000; // cookie
+        // const token = jwt.sign({ id: savedCitizen._id, role: savedCitizen.role }, process.env.JWT_SECRET as string, { expiresIn: expiresInMilliseconds }); // cookie
+        // res.cookie('auth-token', token, { maxAge: expiresInMilliseconds, httpOnly: true }); // cookie
+        const token = jwt.sign({ id: citizenAuthentication._id, role: citizenAuthentication.role }, process.env.JWT_SECRET as string);
         res.status(200).send({ isSuccess: true, status: 200, message: `Citizen: ${citizenAuthentication.user_name} logged successfully`, token: token });
     } catch (err: any) {
         next(err);
@@ -70,7 +74,34 @@ const completeCitizenInfo = async (req: Request, res: Response, next: NextFuncti
         });
         const savedProfileCitizen = await newCitizen.save();
         if (!savedProfileCitizen) throw new CustomError('Internal server error', 500);
-        res.status(201).send({ isSuccess: true, status: 200, message: 'Citizen completed his information successfully', citizenCredential: citizenCredential, citizen: savedProfileCitizen });
+        res.status(201).send({ isSuccess: true, status: 200, message: 'Citizen completed his information successfully', citizenCredential: citizenCredential, citizenProfile: savedProfileCitizen });
+    } catch (err: any) {
+        next(err);
+    };
+};
+
+
+// -------------------------------------------- complete citizen info --------------------------------------------
+
+
+const updateCitizenInfo = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        if (!req.body.passport_or_national_id || req.body.passport_or_national_id === undefined || req.body.passport_or_national_id === null) throw new CustomError('Please provide passport or national id', 400);
+        const citizenCredential = await Citizen.findById(req.currentUserId);
+        const updatedCitizen = await CitizenProfile.findOneAndUpdate({ citizenId: req.currentUserId }
+            , {
+                first_name: (req.body.first_name)?.toLowerCase(),
+                second_name: (req.body.second_name)?.toLowerCase(),
+                third_name: (req.body.third_name)?.toLowerCase(),
+                fourth_name: (req.body.fourth_name)?.toLowerCase(),
+                nationality: req.body.nationality?.toLowerCase(),
+                passport_or_national_id: req.body.passport_or_national_id,
+                address: (req.body.address)?.toLowerCase(),
+                job_title: (req.body.job_title)?.toLowerCase(),
+                gender: (req.body.gender)?.toLowerCase()
+            }, { new: true });
+        if (!updatedCitizen) throw new CustomError('Internal server error', 500);
+        res.status(200).send({ isSuccess: true, status: 200, message: `Citizen: ${citizenCredential.user_name} updated his information successfully`, citizenCredential: citizenCredential, citizenProfile: updatedCitizen });
     } catch (err: any) {
         next(err);
     };
@@ -82,4 +113,5 @@ export default {
     registerCitizen,
     loginCitizen,
     completeCitizenInfo,
+    updateCitizenInfo,
 };
