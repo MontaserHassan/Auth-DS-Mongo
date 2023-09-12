@@ -8,14 +8,14 @@ const getCurrentEntityLogged = async (req: Request, res: Response, next: NextFun
         let decodedPayload;
         const token = req.header('Authorization');
         // const token = req.cookies['Authorization'];
-        if (!token) throw new CustomError('Access denied', 401);
+        if (!token) throw new CustomError('none', 'Access denied', 401);
         decodedPayload = jwtVerify(token, process.env.JWT_SECRET);
         if (decodedPayload) {
             req.currentUserId = decodedPayload.id;
             req.currentUserRole = decodedPayload.role;
             next();
         } else {
-            throw new CustomError('Access denied', 401);
+            throw new CustomError('none', 'Access denied', 401);
         }
     } catch (error) {
         next(error)

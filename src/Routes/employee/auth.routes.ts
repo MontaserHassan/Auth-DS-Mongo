@@ -6,7 +6,7 @@ import { employeeController } from '../../Controller/index.controller';
 const router = express.Router();
 
 
-router.post('/register', employeeController.registerCitizen);
+router.post('/register', employeeController.registerEmployee);
 router.post('/login', employeeController.loginEmployee);
 
 

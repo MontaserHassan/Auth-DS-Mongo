@@ -14,9 +14,9 @@ const registerCitizen = async (req: Request, res: Response, next: NextFunction) 
         const existingCitizen = await Citizen.findOne({ $or: [{ email: (req.body.email).toLowerCase() }, { phone_number: req.body.phone_number },] });
         if (existingCitizen) {
             if (existingCitizen.email === (req.body.email).toLowerCase()) {
-                throw new CustomError('This E-mail already exists, please use another email', 400);
+                throw new CustomError('email', 'This E-mail already exists, please use another email', 400);
             } else {
-                throw new CustomError('This phone number already exists, please use another phone number', 400);
+                throw new CustomError('phone_number', 'This phone number already exists, please use another phone number', 400);
             };
         };
         const newCitizen = new Citizen({
@@ -26,7 +26,7 @@ const registerCitizen = async (req: Request, res: Response, next: NextFunction) 
             password: req.body.password,
         });
         const savedCitizen = await newCitizen.save();
-        if (!savedCitizen) throw new CustomError('Internal server error', 500);
+        if (!savedCitizen) throw new CustomError('none', 'Internal server error', 500);
         // const expiresInMilliseconds: number = req.body.rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000; // cookie
         // const token = jwt.sign({ id: savedCitizen._id, role: savedCitizen.role }, process.env.JWT_SECRET as string, { expiresIn: expiresInMilliseconds }); // cookie
         // res.cookie('auth-token', token, { maxAge: expiresInMilliseconds, httpOnly: true }); // cookie
@@ -43,11 +43,11 @@ const registerCitizen = async (req: Request, res: Response, next: NextFunction) 
 
 const loginCitizen = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        if (!req.body.email || !req.body.password) throw new CustomError('Please provide email and password', 400);
+        if (!req.body.email || !req.body.password) throw new CustomError('email,password', 'Please provide email and password', 400);
         const citizenAuthentication = await Citizen.findOne({ email: (req.body.email).toLowerCase() });
-        if (!citizenAuthentication) throw new CustomError('Incorrect Email or Password', 401);
+        if (!citizenAuthentication) throw new CustomError('email,password', 'Incorrect Email or Password', 401);
         const isPasswordValid = citizenAuthentication.verifyPassword(req.body.password);
-        if (!isPasswordValid) throw new CustomError('Incorrect Email or Password', 401);
+        if (!isPasswordValid) throw new CustomError('email,password', 'Incorrect Email or Password', 401);
         // const expiresInMilliseconds: number = req.body.rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000; // cookie
         // const token = jwt.sign({ id: savedCitizen._id, role: savedCitizen.role }, process.env.JWT_SECRET as string, { expiresIn: expiresInMilliseconds }); // cookie
         // res.cookie('auth-token', token, { maxAge: expiresInMilliseconds, httpOnly: true }); // cookie
@@ -65,9 +65,9 @@ const loginCitizen = async (req: Request, res: Response, next: NextFunction) => 
 const completeCitizenInfo = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const citizenCredential = await Citizen.findById(req.currentUserId).select('-password');
-        if (!req.body.passport_or_national_id || req.body.passport_or_national_id === undefined || req.body.passport_or_national_id === null) throw new CustomError('Please provide passport or national id', 400);
+        if (!req.body.passport_or_national_id || req.body.passport_or_national_id === undefined || req.body.passport_or_national_id === null) throw new CustomError('passport_or_national_id', 'Please provide passport or national id', 400);
         const existingCitizenProfile = await CitizenProfile.findOne({ passport_or_national_id: req.body.passport_or_national_id });
-        if (existingCitizenProfile) throw new CustomError('This passport or national id already exists', 400);
+        if (existingCitizenProfile) throw new CustomError('passport_or_national_id', 'This passport or national id already exists', 400);
         const newCitizen = new CitizenProfile({
             citizenId: req.currentUserId,
             first_name: (req.body.first_name)?.toLowerCase(),
@@ -81,7 +81,7 @@ const completeCitizenInfo = async (req: Request, res: Response, next: NextFuncti
             gender: req.body.gender
         });
         const savedProfileCitizen = await newCitizen.save();
-        if (!savedProfileCitizen) throw new CustomError('Internal server error', 500);
+        if (!savedProfileCitizen) throw new CustomError('none', 'Internal server error', 500);
         res.status(201).send({ isSuccess: true, status: 200, message: 'Citizen completed his information successfully', citizenCredential: citizenCredential, citizenProfile: savedProfileCitizen });
     } catch (err: any) {
         next(err);
@@ -96,10 +96,10 @@ const updateCitizenInfo = async (req: Request, res: Response, next: NextFunction
     try {
         if (req.body.hasOwnProperty('passport_or_national_id')) {
             if (req.body.passport_or_national_id === undefined || req.body.passport_or_national_id === null) {
-                throw new CustomError('Please provide a valid passport or national id', 400);
+                throw new CustomError('passport_or_national_id', 'Please provide a valid passport or national id', 400);
             } else {
                 const existingNationalId = await CitizenProfile.findOne({ passport_or_national_id: req.body.passport_or_national_id });
-                if (existingNationalId) throw new CustomError('This passport or national id already exists', 400);
+                if (existingNationalId) throw new CustomError('passport_or_national_id', 'This passport or national id already exists', 400);
             };
         };
         const citizenCredential = await Citizen.findById(req.currentUserId);
@@ -115,7 +115,7 @@ const updateCitizenInfo = async (req: Request, res: Response, next: NextFunction
                 job_title: (req.body.job_title)?.toLowerCase(),
                 gender: (req.body.gender)?.toLowerCase()
             }, { new: true });
-        if (!updatedCitizen) throw new CustomError('Internal server error', 500);
+        if (!updatedCitizen) throw new CustomError('none', 'Internal server error', 500);
         res.status(200).send({ isSuccess: true, status: 200, message: `Citizen: ${citizenCredential.user_name} updated his information successfully`, citizenCredential: citizenCredential, citizenProfile: updatedCitizen });
     } catch (err: any) {
         next(err);
