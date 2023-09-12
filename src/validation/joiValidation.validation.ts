@@ -19,7 +19,7 @@ const validation = (schema: any) => async (req: Request, res: Response, next: Ne
             next();
         }
     } catch (error) {
-        res.status(error.status || 500).json({ error: error.message });
+        res.status(error.status || 500).send({ error: error.message });
     }
 };
 
