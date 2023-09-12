@@ -1,11 +1,11 @@
-import { model, Schema, Document } from 'mongoose';
+import { model, Schema, Document, Model } from 'mongoose';
 
 
 interface AuthTokenModel extends Document {
     userId: any;
     token: string;
     endTime: Date;
-    remainingTime: Date;
+    removeExpiredTokens(): Promise<void>;
 };
 
 
@@ -24,15 +24,17 @@ const authTokenSchema = new Schema<AuthTokenModel>(
             type: Date,
             required: true,
         },
-        remainingTime: {
-            type: Date
-        }
     },
     {
         timestamps: true
     }
 );
 
+
+authTokenSchema.methods.removeExpiredTokens = async function () {
+    const currentTime = new Date(Date.now());
+    await this.model('AuthToken').deleteMany({ endTime: { $lt: currentTime } });
+};
 
 const AuthToken = model<AuthTokenModel>('AuthToken', authTokenSchema);
 
