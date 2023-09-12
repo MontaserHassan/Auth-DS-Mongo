@@ -123,11 +123,11 @@ const updateCitizenInfo = async (req: Request, res: Response, next: NextFunction
                 second_name: (req.body.second_name)?.toLowerCase(),
                 third_name: (req.body.third_name)?.toLowerCase(),
                 fourth_name: (req.body.fourth_name)?.toLowerCase(),
-                nationality: req.body.nationality?.toLowerCase(),
+                nationality: (req.body.nationality)?.toLowerCase(),
                 passport_or_national_id: req.body.passport_or_national_id,
                 address: (req.body.address)?.toLowerCase(),
                 job_title: (req.body.job_title)?.toLowerCase(),
-                gender: (req.body.gender)?.toLowerCase()
+                gender: (req.body.gender)?.toLowerCase(),
             }, { new: true });
         if (!updatedCitizen) throw new CustomError('none', 'Internal server error', 500);
         res.status(200).send({ isSuccess: true, status: 200, message: `Citizen: ${citizenCredential.user_name} updated his information successfully`, citizenCredential: citizenCredential, citizenProfile: updatedCitizen });
