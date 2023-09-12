@@ -48,10 +48,9 @@ const loginCitizen = async (req: Request, res: Response, next: NextFunction) => 
         if (!citizenAuthentication) throw new CustomError('email,password', 'Incorrect Email or Password', 401);
         const isPasswordValid = citizenAuthentication.verifyPassword(req.body.password);
         if (!isPasswordValid) throw new CustomError('email,password', 'Incorrect Email or Password', 401);
-        // const expiresInMilliseconds: number = req.body.rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000; // cookie
-        // const token = jwt.sign({ id: savedCitizen._id, role: savedCitizen.role }, process.env.JWT_SECRET as string, { expiresIn: expiresInMilliseconds }); // cookie
+        const expiresInMilliseconds: number = req.body.rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000; // 30 day or 1 day
         // res.cookie('auth-token', token, { maxAge: expiresInMilliseconds, httpOnly: true }); // cookie
-        const token = jwt.sign({ id: citizenAuthentication._id, role: citizenAuthentication.role }, process.env.JWT_SECRET as string);
+        const token = jwt.sign({ id: citizenAuthentication._id, role: citizenAuthentication.role }, process.env.JWT_SECRET as string, { expiresIn: expiresInMilliseconds });
         res.status(200).send({ isSuccess: true, status: 200, message: `Citizen: ${citizenAuthentication.user_name} logged successfully`, token: token });
     } catch (err: any) {
         next(err);

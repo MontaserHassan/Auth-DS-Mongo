@@ -6,8 +6,9 @@ import { Request, Response, NextFunction } from 'express';
 const getCurrentEntityLogged = async (req: Request, res: Response, next: NextFunction) => {
     try {
         let decodedPayload;
-        const token = req.header('Authorization');
-        // const token = req.cookies['Authorization'];
+        const authHeader = req.header('Authorization');
+        if (!authHeader || !authHeader.startsWith('Bearer ')) throw new CustomError('none', 'Access denied', 401);
+        const token = authHeader.split(' ')[1];
         if (!token) throw new CustomError('none', 'Access denied', 401);
         decodedPayload = jwtVerify(token, process.env.JWT_SECRET);
         if (decodedPayload) {

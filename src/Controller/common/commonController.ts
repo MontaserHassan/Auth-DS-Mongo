@@ -9,8 +9,10 @@ import CustomError from '../../Utils/customError.utils';
 
 const logoutEntity = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        // header from front
+        // waiting - token schema
         const token = req.cookies['auth-token'];
-        if (!token) throw new CustomError('authorization', 'You are not logged in.', 401);
+        if (!token) throw new CustomError('none', 'You are not logged in.', 401);
         res.cookie('auth-token', '', { expires: new Date(0) });
         res.status(200).json({ isSuccess: true, status: 200, message: 'Logout successful' });
     } catch (error) {
