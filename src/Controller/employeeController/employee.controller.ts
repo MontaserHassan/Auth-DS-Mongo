@@ -14,7 +14,7 @@ const registerEmployee = async (req: Request, res: Response, next: NextFunction)
         if (checkUserExists) throw new CustomError('phone_number', 'This Phone Number already exists, please use another phone_number', 400);
         const newEmployee = new Employee({
             name: (req.body.name).toLowerCase(),
-            username: (req.body.username).toLowerCase(),
+            user_name: (req.body.user_name).toLowerCase(),
             password: req.body.password,
             phone_number: req.body.phone_number,
             role: req.body.role,
@@ -41,7 +41,7 @@ const loginEmployee = async (req: Request, res: Response, next: NextFunction) =>
         const expiresInMilliseconds: number = req.body.rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000; // 30 days or 1 day
         const token = jwt.sign({ id: employeeAuthentication._id, role: employeeAuthentication.role }, process.env.JWT_SECRET as string, { expiresIn: expiresInMilliseconds });
         res.cookie('auth-token', token, { maxAge: expiresInMilliseconds, httpOnly: true });
-        res.status(200).send({ isSuccess: true, status: 200, message: `Employee: ${employeeAuthentication.username} logged successfully`, token: token });
+        res.status(200).send({ isSuccess: true, status: 200, message: `Employee: ${employeeAuthentication.user_name} logged successfully`, token: token });
     } catch (err: any) {
         next(err);
     };

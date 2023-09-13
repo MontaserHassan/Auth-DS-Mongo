@@ -5,7 +5,7 @@ import { model, Schema, Document } from 'mongoose';
 interface EmployeeModel extends Document {
     verifyPassword(password: string): Boolean;
     name: string;
-    username: string;
+    user_name: string;
     password: string;
     role: string;
     phone_number: string;
