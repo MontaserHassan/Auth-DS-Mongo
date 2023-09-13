@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 import { Citizen, CitizenModel, Employee, CitizenProfile, CitizenProfileModel } from '../../Models/index.model';
-import CustomError from '../../Utils/customError.utils';
+import { AuthToken } from '../../Models/authToken.model';
 
 
 // -------------------------------------------- logout --------------------------------------------
@@ -9,15 +9,11 @@ import CustomError from '../../Utils/customError.utils';
 
 const logoutEntity = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // header from front
-        // waiting - token schema
-        const token = req.cookies['auth-token'];
-        if (!token) throw new CustomError('none', 'You are not logged in.', 401);
-        res.cookie('auth-token', '', { expires: new Date(0) });
-        res.status(200).send({ isSuccess: true, status: 200, message: 'Logout successful' });
+        const user = await AuthToken.findOneAndDelete({ userId: req.currentUserId });
+        res.status(200).send({ isSuccess: true, status: 200, message: "Logout successful" });
     } catch (error) {
         next(error);
-    }
+    };
 };
 
 
@@ -36,7 +32,6 @@ const getMyProfile = async (req: Request, res: Response, next: NextFunction) => 
         } else {
             profile = await Employee.findById(entityId);
         };
-        // if (!profile) throw new CustomError('profile not found', 404);
         if (!profile) {
             res.status(200).send({ isSuccess: true, status: 200, profileCredential: profileCredential, profile: "please, complete your profile, User hasn't full profile" });
         } else {

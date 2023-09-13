@@ -20,7 +20,7 @@ const employeesSchema = new Schema(
             minLength: 15,
             maxLength: 60,
         },
-        username: {
+        user_name: {
             type: String,
             required: true,
             minLength: 6,

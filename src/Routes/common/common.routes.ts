@@ -8,10 +8,10 @@ import { getCurrentEntityLogged } from '../../Middleware/Auth/getEntity.middlewa
 const router = express.Router();
 
 
-router.use('/logout', logout);
 
 router.use(getCurrentEntityLogged);
 router.use('/profile', profile);
+router.use('/logout', logout);
 
 
 
