@@ -22,14 +22,14 @@ Before you begin, ensure you have met the following requirements:
    ```bash
    git clone git@github.com:MontaserHassan/Auth-DS-Mongo.git
 
-2. Run Auth-DS-mongo App:
+2. Run Auth-DS-mongo App: first command For the first time only 
     ```bash
-    - docker compose build -For the first time only-
+    - docker compose build
     - docker compose up
 
 3. Run killer command if has issue in port 3000
     ```bash
-    - npm run killer
+    npm run killer
 
 <h2>App Features:</h2>
 
