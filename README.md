@@ -1,6 +1,7 @@
 # Auth-DS-MongoDB
 This is Authentication App run on Node.js and MongoDB, which is used for the tawqe3y website and mobile app to extract digital signatures## Table of Contents.
 
+## Table of Contents
   - [Auth-DS-MongoDB](#auth-ds-mongoDB)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
