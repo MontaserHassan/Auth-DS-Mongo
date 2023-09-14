@@ -36,7 +36,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Mohamed Mohamed Hassan\",\n    \"username\": \"Mohamed Hassan\",\n    \"password\": \"12345678\",\n    \"phone_number\": \"01032492014\",\n    \"role\": \"CA\"\n}",
+							"raw": "{\n    \"name\": \"Mahmoud AbdEl-Fattah Hussein\",\n    \"user_name\": \"Mahmoud fady\",\n    \"password\": \"12345678\",\n    \"phone_number\": \"01090125375\",\n    \"role\": \"CA\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -64,7 +64,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phone_number\": \"01118172440\",\n    \"password\": \"12345678\"\n}",
+							"raw": "{\n    \"phone_number\": \"01090125375\",\n    \"password\": \"12345678\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -153,7 +153,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"user_name\": \"mohamed hassan\",\n    \"email\": \"mohamed.hassan@gmail.com\",\n    \"phone_number\": \"01254369874\",\n    \"password\": \"12345678\" \n}",
+							"raw": "{\n    \"user_name\": \"sayed El-saka\",\n    \"email\": \"sayed.El-saka@gmail.com\",\n    \"phone_number\": \"01016468465\",\n    \"password\": \"12345678\" \n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -178,7 +178,13 @@
 					"name": "logout",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDE3NmVhMzU0NTgwYWRlMjE5YzhlZCIsInJvbGUiOiJjaXRpemVuIiwiaWF0IjoxNjk0NTk2NDYwLCJleHAiOjQyODY1OTY0NjB9.Mrg2HjV6tmZBhWsO8sZKuj_LYaYaSxHGZR9R1FSN2S0",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{host}}/common/logout/",
 							"host": [
@@ -200,7 +206,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"mohamed.hassan@gmail.com\",\n    \"password\": \"12345678\"\n}",
+							"raw": "{\n    \"email\": \"sayed.El-saka@gmail.com\",\n    \"password\": \"12345678\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -228,13 +234,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZmQ3MzJiYzM3MzAyYzRlODMzY2Y5MSIsInJvbGUiOiJjaXRpemVuIiwiaWF0IjoxNjk0MzMxNzEwLCJleHAiOjE3ODA3MzE3MTB9.1M3lJ9dHsM_bAG6c2dW85EE5HGnoI1phQADLwu1pXlg",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDA2OGQwMmI1MjU1YWFiYmY5YzY5YSIsInJvbGUiOiJjaXRpemVuIiwiaWF0IjoxNjk0NTI2MjAyLCJleHAiOjE3ODA5MjYyMDJ9.Vm1gbb9JX-719XKgaK19_aNOYY_apr0Gm3iaXy2UrjI",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"first_name\": \"Mahmoud\",\n    \"second_name\": \"AbdEl-fattah\",\n    \"third_name\": \"hassan\",\n    \"fourth_name\": \"abdEl-MageD\",\n    \"nationality\": \"Egyptian\",\n    \"address\": \"Bani-Seuf, Egypt\",\n    \"passport_or_national_id\": \"29904242200179\",\n    \"job_title\": \"Software Engineer\"\n}",
+							"raw": "{\n    \"first_name\": \"amr\",\n    \"second_name\": \"mohamed\",\n    \"third_name\": \"hassan\",\n    \"fourth_name\": \"abdel-hamed\",\n    \"nationality\": \"Egyptian\",\n    \"address\": \"Bani-suef, Egypt\",\n    \"job_title\": \"Accountant\",\n    \"gender\": \"emale\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -262,13 +268,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZmQ4YjllMzJlNjllMDViMDE0MTNjNiIsInJvbGUiOiJjaXRpemVuIiwiaWF0IjoxNjk0MzU2OTQwfQ.c3J7wIZrdVkU-APQiOspIituceKrPBF36bSLXS82l2o",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDA2OGQwMmI1MjU1YWFiYmY5YzY5YSIsInJvbGUiOiJjaXRpemVuIiwiaWF0IjoxNjk0NTI2MjAyLCJleHAiOjE3ODA5MjYyMDJ9.Vm1gbb9JX-719XKgaK19_aNOYY_apr0Gm3iaXy2UrjI",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"passport_or_national_id\": \"29904242200177\"\n}",
+							"raw": "{\n    \"passport_or_national_id\": \"27804242200177\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -296,13 +302,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZmQ4YjllMzJlNjllMDViMDE0MTNjNiIsInJvbGUiOiJjaXRpemVuIiwiaWF0IjoxNjk0MzU2OTQwfQ.c3J7wIZrdVkU-APQiOspIituceKrPBF36bSLXS82l2o",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDA2OGQwMmI1MjU1YWFiYmY5YzY5YSIsInJvbGUiOiJjaXRpemVuIiwiaWF0IjoxNjk0NTI2MjAyLCJleHAiOjE3ODA5MjYyMDJ9.Vm1gbb9JX-719XKgaK19_aNOYY_apr0Gm3iaXy2UrjI",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"passport_or_national_id\": \"29904242200787\"\n}",
+							"raw": "{\n    \"first_name\": \"ahmed\",\n    \"passport_or_national_id\": \"12345678910126\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -310,15 +316,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/common/profile/updateInfo/",
+							"raw": "{{host}}/common/profile/updateInfo",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"common",
 								"profile",
-								"updateInfo",
-								""
+								"updateInfo"
 							]
 						}
 					},
