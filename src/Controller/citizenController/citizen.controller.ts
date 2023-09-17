@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken'
 
 import CustomError from '../../Utils/customError.utils';
-import { Citizen, CitizenModel } from '../../Models/index.model';
+import { Citizen } from '../../Models/index.model';
 import { CitizenProfile } from '../../Models/citizenProfile.model';
 import { AuthToken, AuthTokenModel } from '../../Models/authToken.model';
+import createToken from '../../Utils/initiatingTokens.utils';
 
 
 // -------------------------------------------- register citizen --------------------------------------------
@@ -119,23 +119,6 @@ const updateCitizenInfo = async (req: Request, res: Response, next: NextFunction
     } catch (err: any) {
         next(err);
     };
-};
-
-
-// -------------------------------------------- create token --------------------------------------------
-
-
-async function createToken(citizen: CitizenModel) {
-    const expiresInMilliseconds: number = 30 * 24 * 60 * 60 * 1000;
-    const token = jwt.sign({ id: citizen._id, role: citizen.role }, process.env.JWT_SECRET as string, { expiresIn: expiresInMilliseconds });
-    const newAuthToken = new AuthToken({
-        userId: citizen._id,
-        token: token,
-        endTime: new Date(Date.now() + expiresInMilliseconds),
-    });
-    const savedAuthToken = await newAuthToken.save();
-    if (!savedAuthToken) throw new CustomError('none', 'Internal server error', 500);
-    return token;
 };
 
 

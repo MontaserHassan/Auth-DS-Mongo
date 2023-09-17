@@ -1,8 +1,8 @@
-import jwt from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express';
 
 import { Employee } from '../../Models/index.model';
 import CustomError from '../../Utils/customError.utils';
+import createToken from '../../Utils/initiatingTokens.utils';
 
 
 // -------------------------------------------- register employee --------------------------------------------
@@ -38,9 +38,7 @@ const loginEmployee = async (req: Request, res: Response, next: NextFunction) =>
         if (!employeeAuthentication) throw new CustomError('phone_number,password', 'Incorrect phone number or Password', 401);
         const isPasswordValid = employeeAuthentication.verifyPassword(req.body.password);
         if (!isPasswordValid) throw new CustomError('phone_number,password', 'Incorrect phone number or Password', 401);
-        const expiresInMilliseconds: number = req.body.rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000; // 30 days or 1 day
-        const token = jwt.sign({ id: employeeAuthentication._id, role: employeeAuthentication.role }, process.env.JWT_SECRET as string, { expiresIn: expiresInMilliseconds });
-        res.cookie('auth-token', token, { maxAge: expiresInMilliseconds, httpOnly: true });
+        const token = await createToken(employeeAuthentication);
         res.status(200).send({ isSuccess: true, status: 200, message: `Employee: ${employeeAuthentication.user_name} logged successfully`, token: token });
     } catch (err: any) {
         next(err);
