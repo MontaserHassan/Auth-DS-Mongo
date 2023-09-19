@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import QRCode from 'qrcode';
+import { authenticator } from 'otplib';
 
 import { Employee } from '../../Models/index.model';
 import CustomError from '../../Utils/customError.utils';
@@ -39,16 +40,31 @@ const loginEmployee = async (req: Request, res: Response, next: NextFunction) =>
         if (!employeeAuthentication) throw new CustomError('phone_number,password', 'Incorrect phone number or Password', 401);
         const isPasswordValid = employeeAuthentication.verifyPassword(req.body.password);
         if (!isPasswordValid) throw new CustomError('phone_number,password', 'Incorrect phone number or Password', 401);
-        let stringData = JSON.stringify(employeeAuthentication)
-        QRCode.toDataURL(stringData, async function (err, code) {
-            if (err) return console.log("error occurred")
-            console.log(code);
-            const token = await createToken(employeeAuthentication);
-            res.status(200).send({ isSuccess: true, status: 200, message: `Employee: ${employeeAuthentication.user_name} logged successfully`, token: token, QRcode: code });
-        })
+        if (!employeeAuthentication.qrcode) {
+            const stringData = JSON.stringify(employeeAuthentication)
+            QRCode.toDataURL(stringData, async function (err, code) {
+                if (err) throw new CustomError('QRCode', 'Incorrect phone number or Password', 401);
+                employeeAuthentication.qrcode = true;
+                await Employee.updateOne({ phone_number: req.body.phone_number }, { $set: { qrcode: true } });
+                res.status(200).send({ isSuccess: true, status: 200, message: `Employee: send QRcode ${employeeAuthentication.user_name} successfully`, QRcode: code });
+            });
+        } else {
+            res.status(200).send({ isSuccess: true, status: 200, message: `Employee: ${employeeAuthentication.user_name}, please give me new OTP` });
+        };
     } catch (err: any) {
         next(err);
     };
+};
+
+
+// -------------------------------------------- send token --------------------------------------------
+
+
+const sendToken = async (req: Request, res: Response, next: NextFunction) => {
+    // read req.body.otp and validate with google Authenticator
+    // check if true
+    // const token = await createToken(employeeAuthentication);
+    // res.status(200).send({ isSuccess: true, status: 200, message: `Employee: send QRcode ${employeeAuthentication.user_name} successfully`, token: token });
 };
 
 
@@ -56,4 +72,5 @@ const loginEmployee = async (req: Request, res: Response, next: NextFunction) =>
 export default {
     registerEmployee,
     loginEmployee,
+    sendToken,
 };

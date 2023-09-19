@@ -8,11 +8,12 @@ interface EmployeeModel extends Document {
     user_name: string;
     password: string;
     role: string;
+    qrcode: boolean;
     phone_number: string;
 };
 
 
-const employeesSchema = new Schema(
+const employeesSchema = new Schema<EmployeeModel>(
     {
         name: {
             type: String,
@@ -41,6 +42,10 @@ const employeesSchema = new Schema(
             unique: true,
             minLength: 11,
             maxLength: 11,
+        },
+        qrcode: {
+            type: Boolean,
+            default: false
         },
     },
     {
