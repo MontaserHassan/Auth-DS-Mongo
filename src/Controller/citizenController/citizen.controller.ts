@@ -62,7 +62,7 @@ const loginCitizen = async (req: Request, res: Response, next: NextFunction) => 
 const completeCitizenInfo = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const citizenCredential = await Citizen.findById(req.currentUserId).select('-password');
-        if (!req.body.passport_or_national_id || req.body.passport_or_national_id === undefined || req.body.passport_or_national_id === null) throw new CustomError('passport_or_national_id', 'Please provide passport or national id', 400);
+        if (!req.body.passport_or_national_id || req.body.passport_or_national_id === undefined || req.body.passport_or_national_id === null || (req.body.passport_or_national_id).trim() === '') throw new CustomError('passport_or_national_id', 'Please provide passport or national id', 400);
         const existingCitizenProfile = await CitizenProfile.findOne({ passport_or_national_id: req.body.passport_or_national_id });
         if (existingCitizenProfile) throw new CustomError('passport_or_national_id', 'This passport or national id already exists', 400);
         const newCitizen = new CitizenProfile({
@@ -92,7 +92,7 @@ const completeCitizenInfo = async (req: Request, res: Response, next: NextFuncti
 const updateCitizenInfo = async (req: Request, res: Response, next: NextFunction) => {
     try {
         if (req.body.hasOwnProperty('passport_or_national_id')) {
-            if (req.body.passport_or_national_id === undefined || req.body.passport_or_national_id === null) {
+            if (req.body.passport_or_national_id === undefined || req.body.passport_or_national_id === null || (req.body.passport_or_national_id).trim() === '') {
                 throw new CustomError('passport_or_national_id', 'Please provide a valid passport or national id', 400);
             } else {
                 const existingNationalId = await CitizenProfile.findOne({ passport_or_national_id: req.body.passport_or_national_id });

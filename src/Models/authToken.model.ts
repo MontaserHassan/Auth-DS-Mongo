@@ -5,6 +5,7 @@ interface AuthTokenModel extends Document {
     userId: any;
     token: string;
     endTime: Date;
+    role: string;
     removeExpiredTokens(): Promise<void>;
 };
 
@@ -24,6 +25,10 @@ const authTokenSchema = new Schema<AuthTokenModel>(
             type: Date,
             required: true,
         },
+        role: {
+            type: String,
+            required: true
+        }
     },
     {
         timestamps: true
