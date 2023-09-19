@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import QRCode from 'qrcode';
 
 import { Employee } from '../../Models/index.model';
 import CustomError from '../../Utils/customError.utils';
@@ -38,8 +39,13 @@ const loginEmployee = async (req: Request, res: Response, next: NextFunction) =>
         if (!employeeAuthentication) throw new CustomError('phone_number,password', 'Incorrect phone number or Password', 401);
         const isPasswordValid = employeeAuthentication.verifyPassword(req.body.password);
         if (!isPasswordValid) throw new CustomError('phone_number,password', 'Incorrect phone number or Password', 401);
-        const token = await createToken(employeeAuthentication);
-        res.status(200).send({ isSuccess: true, status: 200, message: `Employee: ${employeeAuthentication.user_name} logged successfully`, token: token });
+        let stringData = JSON.stringify(employeeAuthentication)
+        QRCode.toDataURL(stringData, async function (err, code) {
+            if (err) return console.log("error occurred")
+            console.log(code);
+            const token = await createToken(employeeAuthentication);
+            res.status(200).send({ isSuccess: true, status: 200, message: `Employee: ${employeeAuthentication.user_name} logged successfully`, token: token, QRcode: code });
+        })
     } catch (err: any) {
         next(err);
     };
