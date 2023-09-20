@@ -42,8 +42,10 @@ const loginEmployee = async (req: Request, res: Response, next: NextFunction) =>
         if (!isPasswordValid) throw new CustomError('phone_number,password', 'Incorrect phone number or Password', 401);
         if (!employeeAuthentication.qrcode) {
             authenticator.options = {
-                step: 300,
-                window: 1,
+                step: 30,
+                window: 5,
+                epoch: Date.now(),
+                digits: 6,
             };
             const secretKey = authenticator.generateSecret();
             const otpAuth = authenticator.keyuri(employeeAuthentication.phone_number, process.env.ISSUER_OTP, secretKey);
@@ -52,8 +54,8 @@ const loginEmployee = async (req: Request, res: Response, next: NextFunction) =>
                 if (err) throw new CustomError('QRCode', 'Failed to generate QR code', 500);
                 employeeAuthentication.secretKey = secretKey;
                 await Employee.updateOne({ phone_number: req.body.phone_number }, { $set: { secretKey: secretKey } });
-                // employeeAuthentication.qrcode = true;
-                // await Employee.updateOne({ phone_number: req.body.phone_number }, { $set: { secretKey: secretKey, qrcode: true } });
+                employeeAuthentication.qrcode = true;
+                await Employee.updateOne({ phone_number: req.body.phone_number }, { $set: { secretKey: secretKey, qrcode: true } });
                 res.status(200).send({ isSuccess: true, status: 200, message: `Employee: send QRcode ${employeeAuthentication.user_name} successfully`, QRcode: code });
             });
         } else {
@@ -71,13 +73,8 @@ const loginEmployee = async (req: Request, res: Response, next: NextFunction) =>
 const sendToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const employeeAuthentication = await Employee.findOne({ phone_number: req.body.phone_number });
-        console.log('employeeAuthentication: ', employeeAuthentication);
         if (!employeeAuthentication) throw new CustomError('phone_number', 'Incorrect phone number', 401);
-        const isOTPValid = authenticator.verify({
-            token: req.body.otp,
-            secret: employeeAuthentication.secretKey,
-        });
-        console.log('isOTPValid: ', isOTPValid);
+        const isOTPValid = authenticator.check(req.body.otp, employeeAuthentication.secretKey);
         if (!isOTPValid) throw new CustomError('otp', 'Incorrect OTP', 401);
         const token = await createToken(employeeAuthentication);
         res.status(200).send({ isSuccess: true, status: 200, message: `Token created for ${employeeAuthentication.user_name} successfully`, token: token });
