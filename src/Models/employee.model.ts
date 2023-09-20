@@ -9,6 +9,7 @@ interface EmployeeModel extends Document {
     password: string;
     role: string;
     qrcode: boolean;
+    secretKey: string;
     phone_number: string;
 };
 
@@ -47,6 +48,9 @@ const employeesSchema = new Schema<EmployeeModel>(
             type: Boolean,
             default: false
         },
+        secretKey: {
+            type: String,
+        }
     },
     {
         timestamps: true,
