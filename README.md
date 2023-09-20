@@ -36,5 +36,6 @@ Before you begin, ensure you have met the following requirements:
 <ol>
     <li>Citizen can register and login</li>
     <li>Citizen can complete and update his information</li>
-    <li>Employee can register and login</li>
+    <li>Employee can register</li>
+    <li>Employee can login by using QRCode and OTP</li>
 </ol>
