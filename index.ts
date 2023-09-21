@@ -19,6 +19,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(cookieParser());
 
-removeExpiredTokensUtils()
+removeExpiredTokensUtils();
 
 app.use(router);

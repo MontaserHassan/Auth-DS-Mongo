@@ -4,7 +4,7 @@ import { authenticator } from 'otplib';
 
 import { Employee } from '../../Models/index.model';
 import CustomError from '../../Utils/customError.utils';
-import createToken from '../../Utils/initiatingTokens.utils';
+import createEmployeeToken from '../../Utils/createEmployeeTokens.utils';
 import { EmployeeOTP } from '../../Models/userOTP.model';
 
 
@@ -71,6 +71,7 @@ const loginEmployee = async (req: Request, res: Response, next: NextFunction) =>
 
 const sendToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        console.log(req.body)
         const employeeAuthentication = await Employee.findOne({ phone_number: req.body.phone_number });
         if (!employeeAuthentication) throw new CustomError('phone_number', 'Incorrect phone number', 401);
         const checkExitingOTP = await EmployeeOTP.findOne({ otp: req.body.otp });
@@ -83,7 +84,7 @@ const sendToken = async (req: Request, res: Response, next: NextFunction) => {
             valid: false
         });
         await newEmployeeOTP.save();
-        const token = await createToken(employeeAuthentication);
+        const token = await createEmployeeToken(employeeAuthentication);
         res.status(200).send({ isSuccess: true, status: 200, message: `Token created for ${employeeAuthentication.user_name} successfully`, token: token });
     } catch (err: any) {
         next(err);

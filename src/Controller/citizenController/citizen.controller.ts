@@ -3,8 +3,8 @@ import { Request, Response, NextFunction } from 'express';
 import CustomError from '../../Utils/customError.utils';
 import { Citizen } from '../../Models/index.model';
 import { CitizenProfile } from '../../Models/citizenProfile.model';
-import { AuthToken, AuthTokenModel } from '../../Models/authToken.model';
-import createToken from '../../Utils/initiatingTokens.utils';
+import { AuthCitizenToken, AuthCitizenTokenModel } from '../../Models/authCitizenToken.model';
+import createCitizenToken from '../../Utils/createCitizenTokens.utils';
 
 
 // -------------------------------------------- register citizen --------------------------------------------
@@ -28,7 +28,7 @@ const registerCitizen = async (req: Request, res: Response, next: NextFunction) 
         });
         const savedCitizen = await newCitizen.save();
         if (!savedCitizen) throw new CustomError('none', 'Internal server error', 500);
-        const token = await createToken(savedCitizen);
+        const token = await createCitizenToken(savedCitizen);
         res.status(201).send({ isSuccess: true, status: 201, message: 'Citizen registered successfully', citizen: savedCitizen, token: token });
     } catch (err: any) {
         next(err);
@@ -46,9 +46,9 @@ const loginCitizen = async (req: Request, res: Response, next: NextFunction) => 
         if (!citizenAuthentication) throw new CustomError('email,password', 'Incorrect Email or Password', 401);
         const isPasswordValid = citizenAuthentication.verifyPassword(req.body.password);
         if (!isPasswordValid) throw new CustomError('email,password', 'Incorrect Email or Password', 401);
-        const existingToken: AuthTokenModel = await AuthToken.findOne({ userId: citizenAuthentication._id });
+        const existingToken: AuthCitizenTokenModel = await AuthCitizenToken.findOne({ userId: citizenAuthentication._id });
         if (existingToken) return res.status(200).send({ isSuccess: true, status: 200, message: `Citizen: ${citizenAuthentication.user_name} logged in with an existing token`, token: existingToken.token });
-        const token = await createToken(citizenAuthentication);
+        const token = await createCitizenToken(citizenAuthentication);
         res.status(200).send({ isSuccess: true, status: 200, message: `Citizen: ${citizenAuthentication.user_name} logged successfully`, token: token });
     } catch (err: any) {
         next(err);

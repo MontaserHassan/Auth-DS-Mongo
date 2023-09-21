@@ -1,16 +1,16 @@
 import jwt from 'jsonwebtoken'
 
-import { AuthToken } from "../Models/authToken.model";
+import { AuthCitizenToken, AuthCitizenTokenModel } from "../Models/authCitizenToken.model";
 import CustomError from "./customError.utils";
 
 
 // -------------------------------------------- create token --------------------------------------------
 
 
-async function createToken(user: any) {
+async function createCitizenToken(user: any) {
     const expiresInMilliseconds: number = 30 * 24 * 60 * 60 * 1000; // day * hour * minute * second * millisecond
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET as string, { expiresIn: expiresInMilliseconds });
-    const newAuthToken = new AuthToken({
+    const newAuthToken: AuthCitizenTokenModel = new AuthCitizenToken({
         userId: user._id,
         token: token,
         role: user.role,
@@ -23,4 +23,4 @@ async function createToken(user: any) {
 
 
 
-export default createToken;
+export default createCitizenToken;

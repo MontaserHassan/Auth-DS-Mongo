@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 
 import { Citizen, CitizenModel, Employee, CitizenProfile, CitizenProfileModel } from '../../Models/index.model';
-import { AuthToken } from '../../Models/authToken.model';
+import { AuthCitizenToken } from '../../Models/authCitizenToken.model';
+import { AuthEmployeeToken } from '../../Models/authEmployeeToken.model';
 
 
 // -------------------------------------------- logout --------------------------------------------
@@ -9,7 +10,13 @@ import { AuthToken } from '../../Models/authToken.model';
 
 const logoutEntity = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = await AuthToken.findOneAndDelete({ userId: req.currentUserId });
+        const entityId = req.currentUserId;
+        const entityRole = req.currentUserRole;
+        if (entityRole === 'citizen') {
+            await AuthCitizenToken.findOneAndDelete({ userId: entityId });
+        } else {
+            await AuthEmployeeToken.findOneAndDelete({ userId: entityId });
+        };
         res.status(200).send({ isSuccess: true, status: 200, message: "Logout successful" });
     } catch (error) {
         next(error);
