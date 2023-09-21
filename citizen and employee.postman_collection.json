@@ -36,7 +36,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Montaser Mohamed Hassan\",\n    \"user_name\": \"Montaser Hassan\",\n    \"password\": \"12345678\",\n    \"phone_number\": \"01118172440\",\n    \"role\": \"RA\"\n}",
+							"raw": "{\n    \"name\": \"Montaser Mohamed Hassan\",\n    \"user_name\": \"Montaser Hassan\",\n    \"password\": \"12345678\",\n    \"phone_number\": \"01032492014\",\n    \"role\": \"RA\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -142,7 +142,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phone_number\": \"01118172440\",\n    \"otp\": \"671977\"\n}",
+							"raw": "{\n    \"phone_number\": \"01032492014\",\n    \"otp\": \"421905\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"

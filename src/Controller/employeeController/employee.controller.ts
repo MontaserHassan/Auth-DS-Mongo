@@ -5,6 +5,7 @@ import { authenticator } from 'otplib';
 import { Employee } from '../../Models/index.model';
 import CustomError from '../../Utils/customError.utils';
 import createToken from '../../Utils/initiatingTokens.utils';
+import { EmployeeOTP } from '../../Models/userOTP.model';
 
 
 // -------------------------------------------- register employee --------------------------------------------
@@ -49,11 +50,9 @@ const loginEmployee = async (req: Request, res: Response, next: NextFunction) =>
             };
             const secretKey = authenticator.generateSecret();
             const otpAuth = authenticator.keyuri(employeeAuthentication.phone_number, process.env.ISSUER_OTP, secretKey);
-            console.log('otpAuth: ', otpAuth);
             toDataURL(otpAuth, async (err, code) => {
                 if (err) throw new CustomError('QRCode', 'Failed to generate QR code', 500);
                 employeeAuthentication.secretKey = secretKey;
-                await Employee.updateOne({ phone_number: req.body.phone_number }, { $set: { secretKey: secretKey } });
                 employeeAuthentication.qrcode = true;
                 await Employee.updateOne({ phone_number: req.body.phone_number }, { $set: { secretKey: secretKey, qrcode: true } });
                 res.status(200).send({ isSuccess: true, status: 200, message: `Employee: send QRcode ${employeeAuthentication.user_name} successfully`, QRcode: code });
@@ -74,8 +73,16 @@ const sendToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const employeeAuthentication = await Employee.findOne({ phone_number: req.body.phone_number });
         if (!employeeAuthentication) throw new CustomError('phone_number', 'Incorrect phone number', 401);
+        const checkExitingOTP = await EmployeeOTP.findOne({ otp: req.body.otp });
+        if (checkExitingOTP) throw new CustomError('otp', 'This OTP already used, please use another one', 401);
         const isOTPValid = authenticator.check(req.body.otp, employeeAuthentication.secretKey);
         if (!isOTPValid) throw new CustomError('otp', 'Incorrect OTP', 401);
+        const newEmployeeOTP = new EmployeeOTP({
+            phone_number: req.body.phone_number,
+            otp: req.body.otp,
+            valid: false
+        });
+        await newEmployeeOTP.save();
         const token = await createToken(employeeAuthentication);
         res.status(200).send({ isSuccess: true, status: 200, message: `Token created for ${employeeAuthentication.user_name} successfully`, token: token });
     } catch (err: any) {
