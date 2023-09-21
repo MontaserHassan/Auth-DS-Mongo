@@ -36,7 +36,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Mahmoud AbdEl-Fattah Hussein\",\n    \"user_name\": \"Mahmoud fady\",\n    \"password\": \"12345678\",\n    \"phone_number\": \"01090125375\",\n    \"role\": \"CA\"\n}",
+							"raw": "{\n    \"name\": \"Montaser Mohamed Hassan\",\n    \"user_name\": \"Montaser Hassan\",\n    \"password\": \"12345678\",\n    \"phone_number\": \"01118172440\",\n    \"role\": \"RA\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -59,12 +59,37 @@
 				},
 				{
 					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `",
+									"<div style=\"text-align: center;\">",
+									"    <h2>Login Response</h2>",
+									"    <p>Is Success: {{response.isSuccess}}</p>",
+									"    <p>Status: {{response.status}}</p>",
+									"    <p>Message: {{response.message}}</p>",
+									"    <p>Token: {{response.token}}</p>",
+									"</div>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return { response: pm.response.json() };",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phone_number\": \"01090125375\",\n    \"password\": \"12345678\"\n}",
+							"raw": "{\n    \"phone_number\": \"01118172440\",\n    \"password\": \"12345678\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -89,7 +114,13 @@
 					"name": "entity profile",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDE3NmVhMzU0NTgwYWRlMjE5YzhlZCIsInJvbGUiOiJjaXRpemVuIiwiaWF0IjoxNjk1MTI0NTEzLCJleHAiOjQyODcxMjQ1MTN9.hPYa6wTgDt2Wgzzdn4qkd0xWIQW8UFUVfT8b852Lgik",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{host}}/common/profile/",
 							"host": [
@@ -99,6 +130,35 @@
 								"common",
 								"profile",
 								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "OTP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone_number\": \"01118172440\",\n    \"otp\": \"671977\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/employee/auth/login/verify",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"employee",
+								"auth",
+								"login",
+								"verify"
 							]
 						}
 					},
@@ -119,7 +179,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZmQ4YjllMzJlNjllMDViMDE0MTNjNiIsInJvbGUiOiJjaXRpemVuIiwiaWF0IjoxNjk0MzU2OTQwfQ.c3J7wIZrdVkU-APQiOspIituceKrPBF36bSLXS82l2o",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MDE3NmVhMzU0NTgwYWRlMjE5YzhlZCIsInJvbGUiOiJjaXRpemVuIiwiaWF0IjoxNjk1MTI0NTEzLCJleHAiOjQyODcxMjQ1MTN9.hPYa6wTgDt2Wgzzdn4qkd0xWIQW8UFUVfT8b852Lgik",
 								"type": "text"
 							}
 						],
@@ -153,7 +213,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"user_name\": \"sayed El-saka\",\n    \"email\": \"sayed.El-saka@gmail.com\",\n    \"phone_number\": \"01016468465\",\n    \"password\": \"12345678\" \n}",
+							"raw": "{\n    \"user_name\": \"sayed El-saka\",\n    \"email\": \"sayed.El-sakaa@gmail.com\",\n    \"phone_number\": \"01016468466\",\n    \"password\": \"12345678\" \n}",
 							"options": {
 								"raw": {
 									"language": "json"
