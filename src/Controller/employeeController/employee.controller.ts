@@ -6,6 +6,8 @@ import { Employee } from '../../Models/index.model';
 import CustomError from '../../Utils/customError.utils';
 import createEmployeeToken from '../../Utils/createEmployeeTokens.utils';
 import { EmployeeOTP } from '../../Models/userOTP.model';
+import { AuthEmployeeToken } from '../../Models/authEmployeeToken.model';
+import { AuthCitizenTokenModel } from '../../Models/authCitizenToken.model';
 
 
 // -------------------------------------------- register employee --------------------------------------------
@@ -41,6 +43,9 @@ const loginEmployee = async (req: Request, res: Response, next: NextFunction) =>
         if (!employeeAuthentication) throw new CustomError('phone_number,password', 'Incorrect phone number or Password', 401);
         const isPasswordValid = employeeAuthentication.verifyPassword(req.body.password);
         if (!isPasswordValid) throw new CustomError('phone_number,password', 'Incorrect phone number or Password', 401);
+        // check if employee has token that isUsed equal true in authEmployeeToken table
+        // const checkEmployeeIsLogged: AuthCitizenTokenModel = await AuthEmployeeToken.findOne({ userId: employeeAuthentication._id, isUsed: true });
+        // if (checkEmployeeIsLogged) throw new CustomError('token', 'you can not login through 2 device', 401);
         if (!employeeAuthentication.qrcode) {
             authenticator.options = {
                 step: 30,
@@ -71,7 +76,6 @@ const loginEmployee = async (req: Request, res: Response, next: NextFunction) =>
 
 const sendToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log(req.body)
         const employeeAuthentication = await Employee.findOne({ phone_number: req.body.phone_number });
         if (!employeeAuthentication) throw new CustomError('phone_number', 'Incorrect phone number', 401);
         const checkExitingOTP = await EmployeeOTP.findOne({ otp: req.body.otp });

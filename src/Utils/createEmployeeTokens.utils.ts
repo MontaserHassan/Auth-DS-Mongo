@@ -8,7 +8,8 @@ import CustomError from "./customError.utils";
 
 
 async function createEmployeeToken(user: any) {
-    const expiresInMilliseconds: number = 30 * 24 * 60 * 60 * 1000; // day * hour * minute * second * millisecond
+    // check if has token return it, else 
+    const expiresInMilliseconds: number = 30 * 24 * 60 * 60 * 1000;
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET as string, { expiresIn: expiresInMilliseconds });
     const newAuthToken: authEmployeeTokenModel = new AuthEmployeeToken({
         userId: user._id,
