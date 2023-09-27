@@ -9,6 +9,7 @@ const router = express.Router();
 
 router.post('/register', validation(citizenValidator.createCitizen), citizenController.registerCitizen);
 router.post('/login', validation(citizenValidator.loginCitizen), citizenController.loginCitizen);
+// router.post('/login/verify', citizenController.sendCaptcha); // Adel
 
 
 

@@ -3,21 +3,17 @@ import { Request, Response, NextFunction } from 'express';
 import { Citizen, CitizenModel, Employee, CitizenProfile, CitizenProfileModel } from '../../Models/index.model';
 import { AuthCitizenToken } from '../../Models/authCitizenToken.model';
 import { AuthEmployeeToken } from '../../Models/authEmployeeToken.model';
+import { EmployeeModel } from '../../Models/employee.model';
 
 
 // -------------------------------------------- logout --------------------------------------------
 
 
-const logoutEntity = async (req: Request, res: Response, next: NextFunction) => {
+const logoutUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const entityId = req.currentUserId;
-        const entityRole = req.currentUserRole;
-        if (entityRole === 'citizen') {
-            await AuthCitizenToken.findOneAndDelete({ userId: entityId });
-        } else {
-            await AuthEmployeeToken.findOneAndDelete({ userId: entityId });
-        };
-        res.status(200).send({ isSuccess: true, status: 200, message: "Logout successful" });
+        const entityRole = req.currentUserRole === 'citizen' ? await AuthCitizenToken.findOneAndDelete({ citizenId: entityId }) : await AuthEmployeeToken.findOneAndDelete({ employeeId: entityId });
+        res.status(200).send({ isSuccess: true, status: 200, message: `${entityRole._id}Logout successful` });
     } catch (error) {
         next(error);
     };
@@ -31,19 +27,9 @@ const getMyProfile = async (req: Request, res: Response, next: NextFunction) => 
     try {
         const entityId = req.currentUserId;
         const entityRole = req.currentUserRole;
-        let profileCredential: CitizenModel;
-        let profile: CitizenProfileModel;
-        if (entityRole === 'citizen') {
-            profileCredential = await Citizen.findById(entityId).select('-password');
-            profile = await CitizenProfile.findOne({ citizenId: entityId }).select('-citizenId');
-        } else {
-            profile = await Employee.findById(entityId);
-        };
-        if (!profile) {
-            res.status(200).send({ isSuccess: true, status: 200, profileCredential: profileCredential, profile: "please, complete your profile, User hasn't full profile" });
-        } else {
-            res.status(200).send({ isSuccess: true, status: 200, profileCredential: profileCredential, profile: profile });
-        };
+        let profileCredential: CitizenModel | EmployeeModel = entityRole === 'citizen' ? await Citizen.findById(entityId).select('-password') : await Employee.findById(entityId);
+        let profile: CitizenProfileModel | null = await CitizenProfile.findOne({ citizenId: entityId }).select('-citizenId');
+        profile === null ? res.status(200).send({ isSuccess: true, status: 200, profileCredential: profileCredential, profile: "please, complete your profile, User hasn't full profile" }) : res.status(200).send({ isSuccess: true, status: 200, profileCredential: profileCredential, profile: profile });
     } catch (error) {
         next(error);
     };
@@ -52,6 +38,6 @@ const getMyProfile = async (req: Request, res: Response, next: NextFunction) => 
 
 
 export default {
-    logoutEntity,
+    logoutUser,
     getMyProfile,
 };

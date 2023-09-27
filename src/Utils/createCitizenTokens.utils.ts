@@ -2,18 +2,19 @@ import jwt from 'jsonwebtoken'
 
 import { AuthCitizenToken, AuthCitizenTokenModel } from "../Models/authCitizenToken.model";
 import CustomError from "./customError.utils";
+import { CitizenModel } from '../Models/citizen.model';
 
 
 // -------------------------------------------- create token --------------------------------------------
 
 
-async function createCitizenToken(user: any) {
-    const expiresInMilliseconds: number = 30 * 24 * 60 * 60 * 1000; // day * hour * minute * second * millisecond
-    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET as string, { expiresIn: expiresInMilliseconds });
+async function createCitizenToken(citizen: CitizenModel, rememberMe: number = 1) {
+    const expiresInMilliseconds: number = rememberMe * Number(process.env.ONE_DAY);
+    const token = jwt.sign({ id: citizen._id, role: citizen.role }, process.env.JWT_SECRET as string, { expiresIn: expiresInMilliseconds });
     const newAuthToken: AuthCitizenTokenModel = new AuthCitizenToken({
-        userId: user._id,
+        citizenId: citizen._id,
         token: token,
-        role: user.role,
+        role: citizen.role,
         endTime: new Date(Date.now() + expiresInMilliseconds),
     });
     const savedAuthToken = await newAuthToken.save();

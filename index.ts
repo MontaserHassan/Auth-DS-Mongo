@@ -21,4 +21,4 @@ app.use(cookieParser());
 
 removeExpiredTokensUtils();
 
-app.use(router);
+app.use('/api/v2', router);

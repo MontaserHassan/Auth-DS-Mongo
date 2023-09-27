@@ -2,7 +2,7 @@ import { model, Schema, Document, Model } from 'mongoose';
 
 
 interface authEmployeeTokenModel extends Document {
-    userId: any;
+    employeeId: any;
     token: string;
     endTime: Date;
     role: string;
@@ -14,7 +14,7 @@ interface authEmployeeTokenModel extends Document {
 
 const authEmployeeTokenSchema = new Schema<authEmployeeTokenModel>(
     {
-        userId: {
+        employeeId: {
             type: Schema.Types.ObjectId,
             ref: 'Wf_employees',
             required: true
@@ -30,6 +30,10 @@ const authEmployeeTokenSchema = new Schema<authEmployeeTokenModel>(
         role: {
             type: String,
             required: true
+        },
+        active: {
+            type: Boolean,
+            default: true
         },
         isUsed: {
             type: Boolean,

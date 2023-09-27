@@ -4,7 +4,7 @@ import { model, Schema, Document } from 'mongoose';
 interface EmployeeOTPModel extends Document {
     phone_number: string;
     otp: string;
-    valid: boolean;
+    active: boolean;
 };
 
 
@@ -19,7 +19,7 @@ const employeeOTPSchema = new Schema<EmployeeOTPModel>(
             required: true,
             unique: true
         },
-        valid: {
+        active: {
             type: Boolean,
             default: true
         },

@@ -42,14 +42,14 @@ const registerCitizen = async (req: Request, res: Response, next: NextFunction) 
 const loginCitizen = async (req: Request, res: Response, next: NextFunction) => {
     try {
         if (!req.body.email || !req.body.password) throw new CustomError('email,password', 'Please provide email and password', 400);
-        const citizenAuthentication = await Citizen.findOne({ email: (req.body.email).toLowerCase() });
-        if (!citizenAuthentication) throw new CustomError('email,password', 'Incorrect Email or Password', 401);
-        const isPasswordValid = citizenAuthentication.verifyPassword(req.body.password);
+        const citizenCredentials = await Citizen.findOne({ email: (req.body.email).toLowerCase() });
+        if (!citizenCredentials) throw new CustomError('email,password', 'Incorrect Email or Password', 401);
+        const isPasswordValid = citizenCredentials.verifyPassword(req.body.password);
         if (!isPasswordValid) throw new CustomError('email,password', 'Incorrect Email or Password', 401);
-        const existingToken: AuthCitizenTokenModel = await AuthCitizenToken.findOne({ userId: citizenAuthentication._id });
-        if (existingToken) return res.status(200).send({ isSuccess: true, status: 200, message: `Citizen: ${citizenAuthentication.user_name} logged in with an existing token`, token: existingToken.token });
-        const token = await createCitizenToken(citizenAuthentication);
-        res.status(200).send({ isSuccess: true, status: 200, message: `Citizen: ${citizenAuthentication.user_name} logged successfully`, token: token });
+        const existingToken: AuthCitizenTokenModel = await AuthCitizenToken.findOne({ userId: citizenCredentials._id });
+        if (existingToken) return res.status(200).send({ isSuccess: true, status: 200, message: `Citizen: ${citizenCredentials.user_name} logged in with an existing token`, token: existingToken.token });
+        const token = await createCitizenToken(citizenCredentials);
+        res.status(200).send({ isSuccess: true, status: 200, message: `Citizen: ${citizenCredentials.user_name} logged successfully`, token: token });
     } catch (err: any) {
         next(err);
     };

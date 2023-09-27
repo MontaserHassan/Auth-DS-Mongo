@@ -2,19 +2,20 @@ import jwt from 'jsonwebtoken'
 
 import { AuthEmployeeToken, authEmployeeTokenModel } from "../Models/authEmployeeToken.model";
 import CustomError from "./customError.utils";
+import { EmployeeModel } from '../Models/employee.model';
 
 
 // -------------------------------------------- create token --------------------------------------------
 
 
-async function createEmployeeToken(user: any) {
+async function createEmployeeToken(employee: EmployeeModel) {
     // check if has token return it, else 
-    const expiresInMilliseconds: number = 30 * 24 * 60 * 60 * 1000;
-    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET as string, { expiresIn: expiresInMilliseconds });
+    const expiresInMilliseconds: number = Number(process.env.ONE_DAY);
+    const token = jwt.sign({ id: employee._id, role: employee.role }, process.env.JWT_SECRET as string, { expiresIn: expiresInMilliseconds });
     const newAuthToken: authEmployeeTokenModel = new AuthEmployeeToken({
-        userId: user._id,
+        employeeId: employee._id,
         token: token,
-        role: user.role,
+        role: employee.role,
         endTime: new Date(Date.now() + expiresInMilliseconds),
         isUsed: true
     });

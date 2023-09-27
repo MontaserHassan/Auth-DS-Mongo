@@ -3,11 +3,11 @@ import CustomError from '../../Utils/customError.utils';
 import { Request, Response, NextFunction } from 'express';
 
 
-const getCurrentEntityLogged = async (req: Request, res: Response, next: NextFunction) => {
+const getCurrentUserLogged = async (req: Request, res: Response, next: NextFunction) => {
     try {
         let decodedPayload;
         const authHeader = req.header('Authorization');
-        if (!authHeader || !authHeader.startsWith('Bearer ')) throw new CustomError('none', 'Access denied', 401);
+        if (!authHeader || !authHeader.startsWith('Bearer ')) throw new CustomError('none', 'Access denied', 401)
         const token = authHeader.split(' ')[1];
         if (!token) throw new CustomError('none', 'Access denied', 401);
         decodedPayload = jwtVerify(token, process.env.JWT_SECRET);
@@ -17,14 +17,14 @@ const getCurrentEntityLogged = async (req: Request, res: Response, next: NextFun
             next();
         } else {
             throw new CustomError('none', 'Access denied', 401);
-        }
+        };
     } catch (error) {
-        next(error)
-    }
+        next(error);
+    };
 };
 
 
 
 export {
-    getCurrentEntityLogged
+    getCurrentUserLogged
 };

@@ -2,7 +2,7 @@ import { model, Schema, Document, Model } from 'mongoose';
 
 
 interface AuthCitizenTokenModel extends Document {
-    userId: any;
+    citizenId: any;
     token: string;
     endTime: Date;
     role: string;
@@ -13,7 +13,7 @@ interface AuthCitizenTokenModel extends Document {
 
 const authCitizenTokenSchema = new Schema<AuthCitizenTokenModel>(
     {
-        userId: {
+        citizenId: {
             type: Schema.Types.ObjectId,
             ref: 'Wf_citizens',
             required: true
